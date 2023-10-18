@@ -1,7 +1,10 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
@@ -52,7 +55,9 @@ public class ReadCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         List<Person> lastShownList = model.getFilteredPersonList();
+        List<Integer> indexes = new ArrayList<>(Arrays.asList(targetIndex.getZeroBased()));
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
@@ -64,7 +69,7 @@ public class ReadCommand extends Command {
 
         model.setSpecificPersonToDisplay(personToRead);
 
-        return new CommandResult(String.format(MESSAGE_READ_PERSON_SUCCESS, field), true, fieldStr);
+        return new CommandResult(String.format(MESSAGE_READ_PERSON_SUCCESS, field), true, fieldStr, indexes);
     }
 
     /**

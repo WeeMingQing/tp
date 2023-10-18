@@ -167,9 +167,9 @@ public class MainWindow extends UiPart<Stage> {
         primaryStage.hide();
     }
 
-    private void handleRead(String fieldToRead) {
+    private void handleRead(String fieldToRead, List<Integer> indexes) {
         personListPanelPlaceholder.getChildren().clear();
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), fieldToRead);
+        personListPanel = new PersonListPanel(logic.getFilteredPersonList(), fieldToRead, indexes);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
     }
 
@@ -211,7 +211,7 @@ public class MainWindow extends UiPart<Stage> {
             }
 
             if (commandResult.isRead()) {
-                handleRead(commandResult.getFieldToRead());
+                handleRead(commandResult.getFieldToRead(), commandResult.getIndexes());
             }
 
             return commandResult;

@@ -51,10 +51,10 @@ public class PersonListPanel extends UiPart<Region> {
     /**
      * Creates a {@code PersonListPanel} with the given {@code ObservableList}.
      */
-    public PersonListPanel(ObservableList<Person> personList, String fieldToRead) {
+    public PersonListPanel(ObservableList<Person> personList, String fieldToRead, List<Integer> indexes) {
         super(FXML);
         personListView.setItems(personList);
-        personListView.setCellFactory(listView -> new SpecifyPersonListViewCell());
+        personListView.setCellFactory(listView -> new SpecifyPersonListViewCell(indexes));
         this.fieldToRead = fieldToRead;
     }
 
@@ -105,6 +105,11 @@ public class PersonListPanel extends UiPart<Region> {
      * a {@code Person} using a {@code PersonCardWithSpecificField}.
      */
     class SpecifyPersonListViewCell extends ListCell<Person> {
+
+        private List<Integer> indexes;
+        public SpecifyPersonListViewCell(List<Integer> indexes) {
+            this.indexes = indexes;
+        }
         @Override
         protected void updateItem(Person person, boolean empty) {
             super.updateItem(person, empty);
@@ -113,7 +118,7 @@ public class PersonListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new PersonCardWithSpecificField(person, getIndex() + 1, fieldToRead).getRoot());
+                setGraphic(new PersonCardWithSpecificField(person, indexes.get(0) + 1, fieldToRead).getRoot());
             }
         }
     }
